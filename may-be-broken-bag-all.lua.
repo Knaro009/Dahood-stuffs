@@ -1,0 +1,42 @@
+local lp = game.Players.LocalPlayer
+local buypath = game:GetService("Workspace").Ignored.Shop["[BrownBag] - $25"]
+local toolName = "[BrownBag]"
+_G.BagAllOn = true
+
+while task.wait(0.1) do
+	for i,v in pairs(game.Players:GetChildren()) do
+		if _G.BagAllOn == true then
+			if v.Name ~= lp.Name then
+				if v.Character and v.Character:FindFirstChild("HumanoidRootPart") and not v.Character:FindFirstChild("Christmas_Sock") and v.Character.BodyEffects["K.O"].Value == false then
+					pcall(function()
+						if not lp.Character:FindFirstChild(toolName) or not lp.Backpack:FindFirstChild(toolName) then
+							repeat 
+								lp.Character.HumanoidRootPart.CFrame = buypath:FindFirstChild("Head").CFrame * CFrame.new(0, 2, 0)
+								if not lp.Character:FindFirstChild(toolName) or not lp.Backpack:FindFirstChild(toolName)then
+									fireclickdetector(buypath:FindFirstChild("ClickDetector"))
+								end
+								task.wait(1)
+							until lp.Character:FindFirstChild(toolName) or lp.Backpack:FindFirstChild(toolName)
+						end
+						
+						local bag = lp.Character:FindFirstChild(toolName) or lp.Backpack:FindFirstChild(toolName)
+						local oldplrcframe = v.Character.HumanoidRootPart.CFrame
+						local tries = 0
+						
+						while not v.Character:FindFirstChild("Christmas_Sock") or tries >2 do
+							if bag.Parent == lp.Backpack then
+								bag.Parent = lp.Character
+							end
+							v.Character.HumanoidRootPart.CFrame = lp.Character.HumanoidRootPart.CFrame
+							task.wait(0.1)
+							bag:Activate()
+						end
+						v.Character.HumanoidRootPart.CFrame = oldplrcframe
+						task.wait(0.1)
+					end)
+				end
+			end
+		end
+	end
+end
+
